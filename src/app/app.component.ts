@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { state, trigger, style, transition, animate } from '@angular/animations';
+import { state, trigger, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,65 @@ import { state, trigger, style, transition, animate } from '@angular/animations'
           'border-radius': '50px'
         })),
         animate(200)
-      ])
+      ]),
+    ]),
+    trigger('list1', [
+      state('anyName',style({
+        opacity : 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100px)'
+        }),
+        animate(300)
+      ]),
+      transition('* => void', animate(300, 
+        style({
+          opacity:0, 
+          transform: 'translateX(100px)'})
+        ))     
+    ]),
+    trigger('list2', [
+      state('anyName',style({
+        opacity : 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', animate(1000,keyframes([
+          style({
+            opacity: 100,
+            transform: 'translateX(-100px)',
+            offset:0
+          }),
+          style({
+            opacity: 50,
+            transform: 'translateX(-30px)',
+            offset: 0.2
+          }),
+          style({
+            opacity: 0,
+            transform: 'translateX(0)',
+            offset: 1
+          })
+      ]))),
+      transition('* => void', animate(1000,keyframes([
+        style({
+          opacity: 100,
+          transform: 'translateX(-100px)',
+          offset:0
+        }),
+        style({
+          opacity: 50,
+          transform: 'translateX(-30px)',
+          offset: 0.2
+        }),
+        style({
+          opacity: 0,
+          transform: 'translateX(0)',
+          offset: 1
+        })
+      ]))),
     ])
   ]
 })
@@ -54,10 +112,22 @@ export class AppComponent {
       this.list.push(item);
     }
 
+    onDelete(item){
+      this.list.splice(this.list.indexOf(item), 1);
+    }
+
     onAnimate(){
       this.state === 'normal' ? this.state="highlighted" : this.state="normal";
       this.wildState === 'normal' ? this.wildState="highlighted" : this.wildState="normal";
     
+    }
+
+    onAnimateStart(event){
+      console.log(event);
+    }
+
+    onAnimateDone(event){
+      console.log(event);
     }
 
     onShrink(){

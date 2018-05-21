@@ -24,6 +24,7 @@
         <li
           class="list-group-item"
           (click)="onDelete(item)"
+          [@list1]
           *ngFor="let item of list">
           {{ item }}
         </li>
@@ -37,6 +38,9 @@
         <li
           class="list-group-item"
           (click)="onDelete(item)"
+          [@list2]
+          (@list2.start)="onAnimateStart($event)"          
+          (@list2.done)="onAnimateDone($event)"
           *ngFor="let item of list">
           {{ item }}
         </li>
